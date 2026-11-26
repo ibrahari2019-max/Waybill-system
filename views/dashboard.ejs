@@ -1,0 +1,240 @@
+<%- include('partials/header', { page_title }) %>
+<%- include('partials/sidebar', { current_nav }) %>
+
+<div class="page-header">
+  <div class="page-header-title">
+    <h1>Transportation Management Dashboard</h1>
+    <p>Operational overview of goods registration, transit, and delivery status at Funtua Garage, Samaru.</p>
+  </div>
+  <div class="page-header-actions">
+    <a href="<%= BASE_URL %>consignments/register.php" class="btn btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M5 12h14"></path>
+      </svg>
+      Register New Goods
+    </a>
+    <a href="<%= BASE_URL %>reports/index.php" class="btn btn-secondary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+        <rect x="6" y="14" width="12" height="8"></rect>
+      </svg>
+      Generate Report
+    </a>
+  </div>
+</div>
+
+<!-- Quick Action Shortcuts -->
+<div class="quick-actions-bar">
+  <a href="<%= BASE_URL %>consignments/register.php" class="btn btn-navy btn-sm">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+    Register Goods
+  </a>
+  <a href="<%= BASE_URL %>tracking/index.php" class="btn btn-secondary btn-sm">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+    Track Goods
+  </a>
+  <a href="<%= BASE_URL %>delivery/update.php" class="btn btn-secondary btn-sm">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline></svg>
+    Update Status
+  </a>
+  <a href="<%= BASE_URL %>delivery/confirm.php" class="btn btn-secondary btn-sm">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+    Confirm Delivery
+  </a>
+  <a href="<%= BASE_URL %>reports/index.php" class="btn btn-secondary btn-sm">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+    System Reports
+  </a>
+</div>
+
+<!-- Statistical Summary Cards -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon blue">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+      </svg>
+    </div>
+    <div class="stat-details">
+      <span class="stat-label">Total Consignments</span>
+      <div class="stat-value"><%= total_consignments.toLocaleString() %></div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon purple">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+      </svg>
+    </div>
+    <div class="stat-details">
+      <span class="stat-label">Registered Goods</span>
+      <div class="stat-value"><%= status_registered.toLocaleString() %></div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon yellow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="1" y="3" width="15" height="13"></rect>
+        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+      </svg>
+    </div>
+    <div class="stat-details">
+      <span class="stat-label">Dispatched Goods</span>
+      <div class="stat-value"><%= status_dispatched.toLocaleString() %></div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon orange">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+    </div>
+    <div class="stat-details">
+      <span class="stat-label">Goods in Transit</span>
+      <div class="stat-value"><%= status_in_transit.toLocaleString() %></div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon teal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+    </div>
+    <div class="stat-details">
+      <span class="stat-label">Arrived Goods</span>
+      <div class="stat-value"><%= status_arrived.toLocaleString() %></div>
+    </div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon green">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+    </div>
+    <div class="stat-details">
+      <span class="stat-label">Delivered Goods</span>
+      <div class="stat-value"><%= status_delivered.toLocaleString() %></div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Section: Recent Consignments Table & Status Updates Feed -->
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+
+  <!-- Recent Consignments Table -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h2>Recent Consignments</h2>
+        <span class="card-subtitle">Latest goods registered at Samaru garage</span>
+      </div>
+      <a href="<%= BASE_URL %>consignments/list.php" class="btn btn-secondary btn-sm">View All Consignments &rarr;</a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Tracking No.</th>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Destination</th>
+            <th>Registered Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (recent_consignments.length === 0) { %>
+          <tr>
+            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">
+              No registered consignments found in the database.
+            </td>
+          </tr>
+          <% } else { %>
+            <% recent_consignments.forEach(function(row) { %>
+            <tr>
+              <td>
+                <a href="<%= BASE_URL %>consignments/view.php?id=<%= row.consignment_id %>" class="tracking-code">
+                  <%= row.tracking_number %>
+                </a>
+              </td>
+              <td><strong><%= row.sender_name %></strong></td>
+              <td><%= row.recipient_name %></td>
+              <td><%= row.destination %></td>
+              <td><%= formatDate(row.created_at) %></td>
+              <td><%- getStatusBadge(row.current_status) %></td>
+              <td>
+                <div class="table-actions">
+                  <a href="<%= BASE_URL %>consignments/view.php?id=<%= row.consignment_id %>" class="btn btn-secondary btn-sm" title="View Consignment Details">
+                    View
+                  </a>
+                  <a href="<%= BASE_URL %>waybills/view.php?id=<%= row.consignment_id %>" class="btn btn-navy btn-sm" title="View Waybill">
+                    Waybill
+                  </a>
+                </div>
+              </td>
+            </tr>
+            <% }); %>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Recently Updated Consignments Feed -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3>Recently Updated</h3>
+        <span class="card-subtitle">Live transit activity trail</span>
+      </div>
+      <a href="<%= BASE_URL %>delivery/update.php" class="btn btn-secondary btn-sm">Update</a>
+    </div>
+
+    <div class="card-body">
+      <% if (recent_updates.length === 0) { %>
+        <p style="color: var(--text-muted); font-size: 13.5px;">No status activity recorded yet.</p>
+      <% } else { %>
+        <div class="timeline-list" style="padding-left: 20px;">
+          <% recent_updates.forEach(function(act) { %>
+          <div class="timeline-item <%= (act.status === 'Delivered') ? 'delivered' : '' %>" style="margin-bottom: 18px;">
+            <div class="timeline-marker" style="left: -24px;"></div>
+            <div style="font-size: 13px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <span class="tracking-code" style="font-size: 11.5px;"><%= act.tracking_number %></span>
+                <span style="font-size: 11px; color: var(--text-light);"><%= formatDatetime(act.updated_at) %></span>
+              </div>
+              <div style="margin-top: 4px;">
+                <strong>Status changed to: </strong> <%- getStatusBadge(act.status) %>
+              </div>
+              <% if (act.remarks) { %>
+              <div style="color: var(--text-muted); font-size: 12px; margin-top: 4px;">
+                <%= act.remarks %>
+              </div>
+              <% } %>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+</div>
+
+<%- include('partials/footer') %>

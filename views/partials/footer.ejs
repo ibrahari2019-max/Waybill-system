@@ -1,0 +1,78 @@
+  </main>
+</div><!-- /.app-main -->
+</div><!-- /.app-wrapper -->
+
+<!-- iziToast JS (CDN with Local Fallback) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+<script>
+  if (typeof iziToast === 'undefined') {
+    document.write('<script src="<%= BASE_URL %>assets/js/iziToast.min.js"><\/script>');
+  }
+</script>
+
+<script>
+  if (typeof iziToast !== 'undefined') {
+    iziToast.settings({
+      timeout: 4500,
+      resetOnHover: true,
+      transitionIn: 'fadeInDown',
+      transitionOut: 'fadeOutUp',
+      position: 'topRight',
+      progressBar: true,
+      close: true,
+      theme: 'light'
+    });
+
+    <% flashes.forEach(function(flash) {
+      var type = ['success', 'error', 'warning', 'info'].includes(flash.type) ? flash.type : 'info';
+    %>
+    iziToast.<%= type %>({
+      title: <%- safeJson(flash.title) %>,
+      message: <%- safeJson(flash.message) %>
+    });
+    <% }); %>
+
+    document.addEventListener('click', function(e) {
+      var target = e.target.closest('[data-confirm]');
+      if (!target) return;
+
+      var questionText = target.getAttribute('data-confirm') || 'Are you sure you want to perform this action?';
+      var isConfirmed = target.getAttribute('data-confirmed') === 'true';
+
+      if (!isConfirmed) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        iziToast.question({
+          timeout: 20000,
+          close: false,
+          overlay: true,
+          displayMode: 'once',
+          id: 'confirmModal',
+          zindex: 9999,
+          title: 'Confirmation Required',
+          message: questionText,
+          position: 'center',
+          buttons: [
+            ['<button><b>Confirm</b></button>', function (instance, toast) {
+              instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+              target.setAttribute('data-confirmed', 'true');
+              if (target.tagName.toLowerCase() === 'a') {
+                window.location.href = target.href;
+              } else if (target.form) {
+                target.form.submit();
+              } else {
+                target.click();
+              }
+            }, true],
+            ['<button>Cancel</button>', function (instance, toast) {
+              instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+            }]
+          ]
+        });
+      }
+    }, true);
+  }
+</script>
+</body>
+</html>
